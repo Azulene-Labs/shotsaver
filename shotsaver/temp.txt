@@ -1,0 +1,38 @@
+mmtest:  {3}
+0 [Y, Z, I, Y, Y, Y]
+1 [I, I, Y, X, Y, Y]
+2 [Y, Y, Z, I, Z, Y]
+3 [I, Y, Z, X, Z, Y]
+4 [Y, Z, I, X, Y, Y]
+5 [Y, Y, Z, I, Z, Y]
+6 [I, I, Y, X, X, Y]
+7 [I, I, Z, Z, Z, X]
+8 [Y, Z, I, X, Y, Y]
+9 [I, I, Z, Z, Z, X]
+10 [I, I, Z, Y, I, X]
+11 [I, I, Y, Z, Z, X]
+12 [Y, Z, I, X, Y, Y]
+13 [I, I, Y, X, X, Y]
+14 [I, I, I, X, X, Y]
+15 [I, Z, Z, Z, Z, I]
+16 [Y, I, Z, X, Y, Y]
+17 [Y, I, Z, I, I, Y]
+18 [Y, Z, X, Y, X, Y]
+19 [Y, Z, Z, X, Y, Y]
+20 [I, I, Z, X, Y, Y]
+21 [Y, I, Z, Y, Y, Y]
+22 [I, I, Y, X, X, Y]
+Avg weight:  1.0
+6
+
+
+
+Avg weight:  1.0
+6
+[0, 1, 4, 8, 12] {3, 5}
+[2, 3, 5, 7, 9, 10, 17] {3, 5}
+[6, 13, 14, 16, 20, 22] {2, 4}
+[11, 15] {2}
+[18] set()
+[19, 21] {3, 5}
+
