@@ -188,7 +188,93 @@ def get_Rhat_nonoverlapping_parts(qubop,partitions,remove_identity=True):
     return Rhat
     
 
+def get_Mghat_from_opsum(fullop, ops_to_sum, remove_identity=True, validity_check=True):
+    """Return Mghat quantity (denominator of eq20 arxiv:1908.06942) given operator sum.
+    
+    Args:
+        fullop (QubitOperator): Full operator
+        ops_to_sum (list): list of QubitOperators to sum. This sum should equal fullop.
+        remove_identity (bool): remove identity terms from Mghat calculation
+        validity_check (bool): check if ops_to_sum sum to fullop
 
+    Returns:
+        Mghat (float)
+    """
+
+    if validity_check:
+        if not fullop == sum(ops_to_sum):
+            raise ValueError("ops_to_sum must sum to fullop")
+
+    # numerator = 0
+    # for pstr,coeff in fullop.terms.items():
+    #     if pstr==() and remove_identity:
+    #         continue
+    #     numerator += np.abs(coeff)
+
+    denominator = 0
+    for op in ops_to_sum:
+        if not isinstance(op,QubitOperator):
+            raise ValueError("Input must be QubitOperator")
+        
+        sum_coeff_sq_i = 0
+        for pstr,coeff in op.terms.items():
+            if pstr==() and remove_identity:
+                continue
+            a = op.terms[pstr]
+            sum_coeff_sq_i += np.abs(a)**2
+        
+        denominator += np.sqrt(sum_coeff_sq_i)
+    
+    # Rhat = (numerator/denominator)**2
+    # return Rhat
+
+    return denominator**2
+    
+
+
+def get_Mghat_nonoverlapping_parts(qubop,partitions,remove_identity=True):
+    """Return Mghat quantity (denominator of eq20 arxiv:1908.06942)
+    
+    Args:
+        qubop (QubitOperator): QubitOperator
+        p_grouping (list): list of lists of Pauli strings
+        remove_identity (bool): remove identity terms from Mghat calculation
+
+    Returns:
+        Mghat (float)
+    """
+
+    total_terms = len(qubop.terms)
+    terms_processed = 0
+
+    # numerator = 0
+    denominator = 0
+    
+    for set_j in partitions:
+        
+        sum_coeff_sq_i = 0
+        
+        for i,Pi in enumerate(set_j):
+
+            if Pi==() and remove_identity:
+                total_terms -= 1
+                continue
+            
+            a = qubop.terms[Pi]
+            # numerator += np.abs( a )
+            sum_coeff_sq_i += np.abs( a )**2
+            terms_processed += 1
+        
+        denominator += np.sqrt(sum_coeff_sq_i)
+    
+    if terms_processed<(total_terms):
+        # Above is '-1' because we don't count the identity term
+        warnings.warn(f"WARNING: Terms processed ({terms_processed}) is less than total terms ({total_terms})", UserWarning)
+
+    # Rhat = (numerator/denominator)**2
+    # return Rhat
+
+    return denominator**2
 
 
 
