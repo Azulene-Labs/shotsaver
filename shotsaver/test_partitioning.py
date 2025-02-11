@@ -48,7 +48,7 @@ def test_graphbased_groupings():
     pass
 
 
-def test_blocked_ttld_residual():
+def test_blocked_noclid_residual():
 
     qop = QubitOperator
 
@@ -65,11 +65,35 @@ def test_blocked_ttld_residual():
     h = util.s2p("IIZZZZZ",'notnumbered') # residual
     op = qop(a) + qop(b) + qop(c) + qop(d) + qop(e) + qop(f) + qop(g) + 0.5*qop(h)
     gold_parts = [[a,c,d], [e,], [f,],      [b,g,], [h,]]
-    res_parts = partitioning.get_sets_blocked_ttld_residual(op, block_size)
+    res_parts = partitioning.get_sets_blocked_noclid_residual(op, block_size)
     # print()
     # pprint.pprint(gold_parts)
     # pprint.pprint(res_parts)
     assert gold_parts==res_parts, (gold_parts,res_parts)
+
+
+# def test_blocked_fald_with_qubit_ids():
+
+#     qop = QubitOperator
+
+#     block_size = 3
+#     # 3 windows (be sure to test *periodicity*)
+#     #               ***---*
+#     a = util.s2p("XXXIIII",'notnumbered') # first fragment
+#     b = util.s2p("IYIIYII",'notnumbered') # residual
+#     c = util.s2p("IIIIYYI",'notnumbered') # first fragment
+#     d = util.s2p("IIIZZZI",'notnumbered') # first fragment
+#     e = util.s2p("IXXXIII",'notnumbered') # second fragment
+#     f = util.s2p("IIZZZII",'notnumbered') # third fragment
+#     g = util.s2p("ZIIIIIZ",'notnumbered') # residual (not doing periodic)
+#     h = util.s2p("IIZZZZZ",'notnumbered') # residual
+#     op = qop(a) + qop(b) + qop(c) + qop(d) + qop(e) + qop(f) + qop(g) + 0.5*qop(h)
+#     gold_parts = [[a,c,d], [e,], [f,],      [b,g,], [h,]]
+#     res_parts = partitioning.get_sets_blocked_ttld_residual(op, block_size)
+#     # print()
+#     # pprint.pprint(gold_parts)
+#     # pprint.pprint(res_parts)
+#     assert gold_parts==res_parts, (gold_parts,res_parts)
 
 
 
@@ -200,37 +224,6 @@ def test_get_fald_partitions():
     # assert [((0, 'Y'), (1, 'Z')), ((0, 'X'), (1, 'X')), ((1, 'X'),)] == ptt.tensor_trains[0].tensor_train_qubops
     # assert [((2, 'Y'), (3, 'Y'))] == ptt.tensor_trains[1].tensor_train_qubops
 
-
-
-
-# def test_fald():
-#     """Test Factoring and Local Diagonalization algorithm"""
-
-#     ps = util.paulis
-#     qo = QubitOperator
-#     I = qo("[]")
-#     X = qo("[X0]")
-#     Y = qo("[Y0]")
-#     Z = qo("[Z0]")
-
-#     # a = util.s2p("XZZXII",'notnumbered')
-#     # b = util.s2p("XZZYII",'notnumbered')
-#     # c = util.s2p("XZZZXI",'notnumbered')
-#     # d = util.s2p("XZZZYI",'notnumbered')
-#     # # e = util.s2p("XZZZZX",'notnumbered')
-#     # # f = util.s2p("XZZZZY",'notnumbered')
-#     # g = util.s2p("IXIXIX",'notnumbered')
-
-#     # # The 1. should be optional
-#     # gold_ttrain_1 = [ 1., X, Z, Z, qo("[X0] + [YO] + [Z0 X1] + [Z0 Y1]"), I ]
-#     # gold_ttrain_2 = [ 1., I, X, I, X, I, X]
-#     # NO. CHANGE THIS.
-
-#     # # eh. maybe you should make it a qubit operator...
-
-#     # gold = [ [a,b,c,d], [g] ] 
-
-#     # k = 2
 
 
 

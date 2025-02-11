@@ -118,7 +118,7 @@ def get_si_sets(op, comm_method="fullcommute", **options):
     return commuting_sets
 
 
-def get_sets_blocked_ttld_residual(op,blocksize,resid_comm_method="fullcommute",max_ttld_parts=None):
+def get_sets_blocked_noclid_residual(op,blocksize,resid_comm_method="fullcommute",max_noclid_parts=None):
     '''Returns grouping for blocked-TTLD-with-residual.
 
     Blocks are defined contigously, hence blocks are determined entirely by qubit ordering.
@@ -152,8 +152,8 @@ def get_sets_blocked_ttld_residual(op,blocksize,resid_comm_method="fullcommute",
             comm_func = paulirelat.pstrings_qubitwise_commute
         elif resid_comm_method=="fullcommute":
             comm_func = paulirelat.pstrings_commute
-    if (max_ttld_parts is None) or max_ttld_parts>blocksize:
-        max_ttld_parts = blocksize
+    if (max_noclid_parts is None) or max_ttld_parts>blocksize:
+        max_noclid_parts = blocksize
 
 
     nblocks = math.ceil(count_qubits(op)/blocksize)
@@ -163,7 +163,7 @@ def get_sets_blocked_ttld_residual(op,blocksize,resid_comm_method="fullcommute",
     # Window 2: [(1,2,3), (4,5,6), ...]
     # 
     sets_of_sets_of_qubit_sets = []
-    for window in range(0,max_ttld_parts):
+    for window in range(0,max_noclid_parts):
         set_of_qid_sets = []
         for block in range( nblocks ):
             start = window+blocksize*block
@@ -257,7 +257,9 @@ class tensor_train:
         """Attempts to add new term to tensor train
         
         Returns False if not possible,
-            else returns the 'free qubits' e.g. (0,2)"""
+            else returns the 'free qubits' e.g. (0,2)
+            
+        They are called 'free' because they can be anything. We also use the term 'mismatched'."""
         
         # Loop through all terms
         # Union of already-free qubits & new term's mismatched qubits w/ all terms

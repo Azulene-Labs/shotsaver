@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=45", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "shotsaver"
+version = "0.1.0"
+description = "Reducing shot counts in quantum function eval."
+readme = "README.md"
+requires-python = ">=3.7"
+dependencies = [
+    "numpy>=1.24.0",
+    "scipy>=1.10.0",
+    "openfermion>=1.5"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black",
+    "flake8",
+]
+
+[tool.pytest.ini_options]
+python_files = "test_*.py"
+testpaths = ["src/shotsaver"]
+
+
